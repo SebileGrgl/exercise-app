@@ -8,3 +8,9 @@ export type Exercise = {
   secondaryMuscles: string[];
   target: string;
 };
+
+export type SidebarLink = {
+  id: number;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
+  path: string;
+};

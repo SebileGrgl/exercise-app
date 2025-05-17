@@ -6,7 +6,7 @@ import sidebarLinks from "../constants/sidebarLinks";
 const Sidebar = () => {
   const location = useLocation();
   return (
-    <aside className="h-screen min-w-18  bg-neutral flex flex-col justify-between items-center py-4 px-2 shadow-black shadow-lg">
+    <aside className="h-screen min-w-18  bg-neutral flex flex-col justify-between items-center py-4 px-2">
       <div className="border-b border-accent pb-4 flex justify-center items-center w-full ">
         <img src={logo} alt="logo" width={40} />
       </div>

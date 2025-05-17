@@ -1,6 +1,7 @@
 import { HomeIcon, BookmarkIcon } from "@heroicons/react/24/outline";
+import type { SidebarLink } from "../types";
 
-const sidebarLinks = [
+const sidebarLinks: SidebarLink[] = [
   {
     id: 1,
     icon: HomeIcon,
