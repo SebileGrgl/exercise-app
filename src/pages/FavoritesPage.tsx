@@ -1,5 +1,11 @@
+import MainLayout from "../layout/MainLayout";
+
 const FavoritesPage = () => {
-  return <div>FavoritesPage</div>;
+  return (
+    <MainLayout>
+      <div>FavoritesPage</div>
+    </MainLayout>
+  );
 };
 
 export default FavoritesPage;
