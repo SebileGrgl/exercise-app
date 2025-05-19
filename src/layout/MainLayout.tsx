@@ -3,9 +3,9 @@ import Sidebar from "../components/Sidebar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex bg-secondary w-screen">
+    <div className="flex bg-secondary  ">
       <Sidebar />
-      <main className=" w-full px-2 ml-16 h-screen">
+      <main className=" w-full px-2 ml-16 min-h-screen">
         <Header />
         <div>{children}</div>
       </main>
