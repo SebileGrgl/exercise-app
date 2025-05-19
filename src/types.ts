@@ -42,3 +42,11 @@ export type FilterOptionGroupProps = {
   values: string[];
   handleChange: (param: any) => void;
 };
+
+export type ExercisesListProps = {
+  exercisesList: Exercise[];
+};
+
+export type ExerciseCardProps = {
+  exercise: Exercise;
+};

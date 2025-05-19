@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SearchField from "../components/SearchField";
 import type { Exercise, FilterParameters } from "../types";
 import FilterPanel from "../components/FilterPanel";
+import ExercisesList from "../components/ExercisesList";
 
 const DisplayExercises = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -22,11 +23,13 @@ const DisplayExercises = () => {
   console.log(data);
 
   const [filteredExerciseList, setFilteredExerciseList] = useState<Exercise[]>(
-    data || []
+    []
   );
 
   const filterBySearchTerm = (): Exercise[] => {
-    const updatedList = data?.filter((item) => item.name.includes(searchTerm));
+    const updatedList = data?.filter((item) =>
+      item.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+    );
     return updatedList || [];
   };
 
@@ -58,16 +61,25 @@ const DisplayExercises = () => {
     console.log(filteredExerciseList);
   }, [filteredExerciseList]);
 
+  useEffect(() => {
+    setFilteredExerciseList(data || []);
+  }, [data]);
+
   return (
     <div className="flex justify-between">
       <div className="flex-3 pt-4">
         <SearchField setSearchTerm={setSearchTerm} />
+        <ExercisesList exercisesList={filteredExerciseList} />
       </div>
-      <FilterPanel
-        filterParameters={filterParameters}
-        setFilterParameters={setFilterParameters}
-        searchTerm={searchTerm}
-      />
+      <div className="flex-1 border-l border-neutral ">
+        <div className="sticky top-0 h-screen ">
+          <FilterPanel
+            filterParameters={filterParameters}
+            setFilterParameters={setFilterParameters}
+            searchTerm={searchTerm}
+          />
+        </div>
+      </div>
     </div>
   );
 };

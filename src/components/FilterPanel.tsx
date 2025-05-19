@@ -42,18 +42,19 @@ const FilterPanel = ({
     <form
       onSubmit={handleSubmit}
       onReset={handleReset}
-      className="flex-1 border-l border-neutral px-2 h-screen overflow-y-auto "
+      className="  flex flex-col  px-2  h-full "
     >
-      {filterOptionsGroups.map((item) => (
-        <FilterOptionsGroup
-          key={item.parameter}
-          optionsGroup={item}
-          values={values[item.parameter as keyof FilterParameters]}
-          handleChange={handleChange}
-        />
-      ))}
-
-      <div className="sticky flex  bottom-0 border-t border-neutral gap-3 bg-secondary py-4 px-4">
+      <div className=" overflow-y-auto flex-1 ">
+        {filterOptionsGroups.map((item) => (
+          <FilterOptionsGroup
+            key={item.parameter}
+            optionsGroup={item}
+            values={values[item.parameter as keyof FilterParameters]}
+            handleChange={handleChange}
+          />
+        ))}
+      </div>
+      <div className=" sticky bottom-0  w-full flex border-t border-neutral gap-3 bg-secondary py-4 px-4">
         <button
           type="submit"
           className=" bg-primary flex-1 text-secondary text-sm py-2 rounded-md"
