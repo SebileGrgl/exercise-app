@@ -14,3 +14,7 @@ export type SidebarLink = {
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   path: string;
 };
+
+export type SearchFieldProps = {
+  setSearchTerm: (param: string) => void;
+};
