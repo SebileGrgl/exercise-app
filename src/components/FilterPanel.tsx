@@ -3,29 +3,40 @@ import * as Yup from "yup";
 import filterOptionsGroups from "../constants/FilterOptions";
 import FilterOptionsGroup from "./FilterOptionsGroup";
 import type { FilterPanelProps, FilterParameters } from "../types";
+import { useEffect } from "react";
 
-const FilterPanel = ({ setFilterParameters }: FilterPanelProps) => {
-  const initialValues = {
-    bodyPart: [],
-    muscles: [],
-    equipment: [],
-  };
+const FilterPanel = ({
+  filterParameters,
+  setFilterParameters,
+  searchTerm,
+}: FilterPanelProps) => {
   const filterSchema = Yup.object().shape({
     bodyPart: Yup.array().of(Yup.string()),
     muscles: Yup.array().of(Yup.string()),
     equipment: Yup.array().of(Yup.string()),
   });
 
-  const { values, handleChange, handleSubmit, handleReset } = useFormik({
-    initialValues: initialValues,
-    validationSchema: filterSchema,
-    onSubmit: () => {
-      setFilterParameters(values);
-    },
-    onReset: () => {
-      setFilterParameters(initialValues);
-    },
-  });
+  const resetedValues: FilterParameters = {
+    bodyPart: [],
+    muscles: [],
+    equipment: [],
+  };
+
+  const { values, handleChange, handleSubmit, handleReset, setValues } =
+    useFormik({
+      initialValues: filterParameters,
+      validationSchema: filterSchema,
+      onSubmit: () => {
+        setFilterParameters(values);
+      },
+      onReset: () => {
+        setFilterParameters(resetedValues);
+      },
+    });
+
+  useEffect(() => {
+    setValues(resetedValues);
+  }, [searchTerm]);
 
   return (
     <form
