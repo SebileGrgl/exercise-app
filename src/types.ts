@@ -72,6 +72,7 @@ export type User = {
 export type LoginData = {
   email: string;
   password: string;
+  rememberMe: boolean;
 };
 
 export type SignupData = User & {
@@ -79,11 +80,11 @@ export type SignupData = User & {
 };
 
 export type LoginFormProps = {
-  handleUserLogin: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleRememberMeChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  rememberMe: boolean;
-  formData: LoginData;
+  values: LoginData;
+  errors: Partial<Record<keyof SignupData, string>>;
+  isChecked: boolean;
 };
 
 export type SignupFormProps = {

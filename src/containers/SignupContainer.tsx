@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import SignupForm from "../components/SignupForm";
 import { useFormik } from "formik";
-import signupValidationSchema from "../validations/SignupSchema";
 import { useEffect, useState } from "react";
 import type { User } from "../types";
-import { toast } from "react-toastify";
+import signupValidationSchema from "../validations/signupSchema";
+import { getLocal, setLocal } from "../utils/localFunctions";
+import { toastError, toastSuccess } from "../utils/toastMessages";
 
 const SignupContainer = () => {
   const navigate = useNavigate();
   const [userList, setUserList] = useState<User[]>([]);
 
   useEffect(() => {
-    const userList = localStorage.getItem("userList");
-    const userListData = userList ? JSON.parse(userList) : [];
-    setUserList(userListData);
+    const userList = getLocal("userList");
+    setUserList(userList);
   }, []);
 
   const initialValues = {
@@ -29,13 +29,13 @@ const SignupContainer = () => {
     );
 
     if (isAlreadyRegistered) {
-      toast.error(
+      toastError(
         "This email is already registered. Please use a different email."
       );
     } else {
       const updatedUserListData = [...userList, values];
-      localStorage.setItem("userList", JSON.stringify(updatedUserListData));
-      toast.success("Signup successfull!");
+      setLocal("userList", updatedUserListData);
+      toastSuccess("Signup successfull!");
       navigate("/");
       console.log(values);
     }

@@ -8,6 +8,7 @@ import ExercisesList from "../components/ExercisesList";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import MobileFilterPanel from "../components/MobileFilterPanel";
 import toggleFavorites from "../utils/toggleFavorites";
+import { getLocal } from "../utils/localFunctions";
 
 const DisplayExercises = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -23,8 +24,6 @@ const DisplayExercises = () => {
     staleTime: Infinity,
   });
 
-  console.log(data);
-
   const [filteredExerciseList, setFilteredExerciseList] = useState<Exercise[]>(
     []
   );
@@ -32,11 +31,8 @@ const DisplayExercises = () => {
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const favoriteExercises = localStorage.getItem("favorites");
-    const favorites: Exercise[] = favoriteExercises
-      ? JSON.parse(favoriteExercises)
-      : [];
-    setFavoriteExercises(favorites);
+    const favoriteExercises = getLocal("favorites");
+    setFavoriteExercises(favoriteExercises);
   }, []);
 
   const filterBySearchTerm = (): Exercise[] => {
@@ -73,10 +69,6 @@ const DisplayExercises = () => {
     const updatedList = filterBySearchTerm();
     setFilteredExerciseList(filterByParam(updatedList));
   }, [filterParameters]);
-
-  useEffect(() => {
-    console.log(filteredExerciseList);
-  }, [filteredExerciseList]);
 
   useEffect(() => {
     setFilteredExerciseList(data || []);

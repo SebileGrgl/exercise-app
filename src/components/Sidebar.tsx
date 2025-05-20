@@ -2,6 +2,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import sidebarLinks from "../constants/sidebarLinks";
+import { removeLocal } from "../utils/localFunctions";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -33,7 +34,12 @@ const Sidebar = () => {
       </nav>
       <div className="border-t border-t-accent pt-4 flex justify-center items-center w-full ">
         <NavLink to="/login">
-          <ArrowLeftStartOnRectangleIcon className="w-7 text-secondary" />
+          <ArrowLeftStartOnRectangleIcon
+            className="w-7 text-secondary"
+            onClick={() => {
+              removeLocal("user");
+            }}
+          />
         </NavLink>
       </div>
     </aside>

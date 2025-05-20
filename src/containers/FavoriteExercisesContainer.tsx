@@ -2,16 +2,14 @@ import { useEffect, useState } from "react";
 import type { Exercise } from "../types";
 import ExercisesList from "../components/ExercisesList";
 import toggleFavorites from "../utils/toggleFavorites";
+import { getLocal } from "../utils/localFunctions";
 
 const FavoritesExercisesContainer = () => {
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
 
   useEffect(() => {
-    const favoriteExercises = localStorage.getItem("favorites");
-    const favorites: Exercise[] = favoriteExercises
-      ? JSON.parse(favoriteExercises)
-      : [];
-    setFavoriteExercises(favorites);
+    const favoriteExercises = getLocal("favorites");
+    setFavoriteExercises(favoriteExercises);
   }, []);
 
   const isFavorite = (exercise: Exercise): boolean => {
