@@ -25,6 +25,15 @@ const DisplayExercises = () => {
   const [filteredExerciseList, setFilteredExerciseList] = useState<Exercise[]>(
     []
   );
+  const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
+
+  useEffect(() => {
+    const favoriteExercises = localStorage.getItem("favorites");
+    const favorites: Exercise[] = favoriteExercises
+      ? JSON.parse(favoriteExercises)
+      : [];
+    setFavoriteExercises(favorites);
+  }, []);
 
   const filterBySearchTerm = (): Exercise[] => {
     const updatedList = data?.filter((item) =>
@@ -45,6 +54,24 @@ const DisplayExercises = () => {
       return isBodyPartMatched && isMuscleMatched && isEquipmentMatched;
     });
     return filteredList;
+  };
+
+  const toggleFavorites = (exercise: Exercise) => {
+    const isAlreadyAdded = favoriteExercises.some(
+      (item) => item.id === exercise.id
+    );
+    let updatedList: Exercise[];
+    if (isAlreadyAdded) {
+      updatedList = favoriteExercises.filter((item) => item.id !== exercise.id);
+    } else {
+      updatedList = [...favoriteExercises, exercise];
+    }
+    setFavoriteExercises(updatedList);
+    localStorage.setItem("favorites", JSON.stringify(updatedList));
+  };
+
+  const isFavorite = (exercise: Exercise): boolean => {
+    return favoriteExercises.some((item) => item.id === exercise.id);
   };
 
   useEffect(() => {
@@ -69,7 +96,11 @@ const DisplayExercises = () => {
     <div className="flex justify-between">
       <div className="flex-3 pt-4">
         <SearchField setSearchTerm={setSearchTerm} />
-        <ExercisesList exercisesList={filteredExerciseList} />
+        <ExercisesList
+          exercisesList={filteredExerciseList}
+          toggleFavorites={toggleFavorites}
+          isFavorite={isFavorite}
+        />
       </div>
       <div className="flex-1 border-l border-neutral ">
         <div className="sticky top-0 h-screen ">

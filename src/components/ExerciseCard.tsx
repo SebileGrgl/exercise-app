@@ -1,7 +1,12 @@
 import { BookmarkIcon } from "@heroicons/react/24/outline";
+import { BookmarkIcon as FavoriteIcon } from "@heroicons/react/24/solid";
 import type { ExerciseCardProps } from "../types";
 
-const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
+const ExerciseCard = ({
+  exercise,
+  toggleFavorites,
+  isFavorite,
+}: ExerciseCardProps) => {
   const { gifUrl, name, equipment, target } = exercise;
   return (
     <div className="bg-accent p-3 rounded-md flex flex-col relative group">
@@ -17,8 +22,17 @@ const ExerciseCard = ({ exercise }: ExerciseCardProps) => {
           <span className="font-semibold">{equipment}</span>
         </p>
       </div>
-      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 flex justify-center items-center p-2 bg-accent cursor-pointer">
-        <BookmarkIcon width={18} />
+      <div
+        className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 flex justify-center items-center p-2 bg-accent cursor-pointer"
+        onClick={() => {
+          toggleFavorites(exercise);
+        }}
+      >
+        {isFavorite(exercise) ? (
+          <FavoriteIcon width={18} />
+        ) : (
+          <BookmarkIcon width={18} />
+        )}
       </div>
     </div>
   );
