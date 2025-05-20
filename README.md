@@ -1,54 +1,61 @@
-# React + TypeScript + Vite
+# Egzersiz Rehberi Uygulaması
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bu proje, kullanıcıların kas gruplarına göre egzersizleri görüntüleyebileceği, her egzersize ait temel bilgilerin ve görsellerin sunulduğu bir rehber uygulamasıdır.
 
-Currently, two official plugins are available:
+## ✨ Temel Özellikler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Parametrelere Göre Filtreleme:** Kullanıcılar, çalıştırmak istedikleri kas grupları, vücut böölgeleri ve egzersizlerin gerektirdiği ekipmanlardan seçerek ilgili egzersizleri listeleyebilirler.
+- **Egzersiz Kart Bilgisi:** Her egzersiz için adı, hedeflediği kas grubu, kullanılan ekipman ve egzersizin nasıl yapıldığını gösteren bir GIF sunulur.
+- **Arama Fonksiyonu:** Kullanıcılar, istedikleri egzersiz adı ile de arama yapabilirler.
+- **Veri Yönetimi:** Egzersiz verileri **React Query** kullanılarak çekilir. Bu sayede veri cache yönetimi, yükleniyor ve hata durumları ele alınır.
+- **Favorilere Ekleme:** Kullanıcılar beğendikleri egzersizleri favorilerine ekleyebilir ve bu favori listesi tarayıcının **localStorage**'ında saklanır. Ayrıca favoriler sayfasında da bu egzersizleri görüntüleyebilirler.
 
-## Expanding the ESLint configuration
+## 🛠️ Kullanılan Teknolojiler
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React JS**
+- **TypeScript**
+- **Vite**
+- **Axios**
+- **React Query**
+- **TailwindCSS**
+- **Formik & Yup**
+- **Toastify**
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🔌 Kullanılan API
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **ExerciseDB API:** (https://rapidapi.com/justin-WFnsXH_t6/api/exercisedb/)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 Kurulum ve Başlatma
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
+
+1.  **Repoyu Klonlayın:**
+    ```bash
+    git clone [https://github.com/SebileGrgl/exercise-app.git](https://github.com/SebileGrgl/exercise-app.git)
+    ```
+2.  **Proje Dizinine Gidin:**
+    ```bash
+    cd exercise-app
+    ```
+3.  **Bağımlılıkları Yükleyin:**
+    ```bash
+    npm install
+    # veya
+    yarn install
+    ```
+4.  **Geliştirme Sunucusunu Başlatın:**
+    ```bash
+    npm run dev
+    # veya
+    yarn dev
+    ```
+
+## 📝 Proje Geliştirme Notları ve Mevcut Durum
+
+- _Egzersiz listeleme yapıldı ve filtreleme özellikleri çalışır durumda._
+- _TailwindCSS entegrasyonu yapıldı_
+- _Favorilere ekleme ve çıkarma fonksiyonu çalışıyor_
+- _Form validasyonları Formik ve Yup kütüphaneleri kullanılarak sağlandı._
+- _Şu anda Context API, Redux gibi ek yapı/kütüphanelere ihtiyaç duyulmadı. Ancak gerçek bir veritabanı ile çalışıldığında, özellikle kimlik doğrulama işlemleri için bu tür yapılar gerekebilir._
+- _Responsive uyumlu bir tasarım yapıldı_
+- _Bazı Loading ve error durumları için bildirimler yapım aşamasında. Özellikle Loading kısımları büyük ölçüde eksik ama kısa zamanda ekleniyor olacak._
