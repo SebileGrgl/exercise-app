@@ -54,3 +54,11 @@ export type ExerciseCardProps = {
   toggleFavorites: (param: Exercise) => void;
   isFavorite: (param: Exercise) => boolean;
 };
+
+export type MobileFilterPanelProps = {
+  isOpen: boolean;
+  setIsOpen: (param: boolean) => void;
+  filterParameters: FilterParameters;
+  setFilterParameters: React.Dispatch<React.SetStateAction<FilterParameters>>;
+  searchTerm: string;
+};

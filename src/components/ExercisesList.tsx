@@ -7,7 +7,7 @@ const ExercisesList = ({
   isFavorite,
 }: ExercisesListProps) => {
   return (
-    <div className="mt-6 pr-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="mt-6  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       {exercisesList.map((item) => (
         <ExerciseCard
           key={item.id}

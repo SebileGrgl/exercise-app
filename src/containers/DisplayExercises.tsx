@@ -5,6 +5,8 @@ import SearchField from "../components/SearchField";
 import type { Exercise, FilterParameters } from "../types";
 import FilterPanel from "../components/FilterPanel";
 import ExercisesList from "../components/ExercisesList";
+import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import MobileFilterPanel from "../components/MobileFilterPanel";
 
 const DisplayExercises = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -26,6 +28,7 @@ const DisplayExercises = () => {
     []
   );
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
+  const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const favoriteExercises = localStorage.getItem("favorites");
@@ -93,16 +96,29 @@ const DisplayExercises = () => {
   }, [data]);
 
   return (
-    <div className="flex justify-between">
-      <div className="flex-3 pt-4">
-        <SearchField setSearchTerm={setSearchTerm} />
+    <div className="flex justify-between relative">
+      <div className="flex-3 pt-4 pr-6">
+        <div className="flex justify-between items-center gap-3">
+          <SearchField setSearchTerm={setSearchTerm} />
+
+          <button
+            onClick={() => setIsPanelOpen(true)}
+            className=" bg-primary text-white rounded-md text-sm lg:hidden p-2"
+          >
+            <span className="hidden sm:inline">Filtrele</span>
+            <span className="sm:hidden">
+              <AdjustmentsHorizontalIcon width={22} />
+            </span>
+          </button>
+        </div>
         <ExercisesList
           exercisesList={filteredExerciseList}
           toggleFavorites={toggleFavorites}
           isFavorite={isFavorite}
         />
       </div>
-      <div className="flex-1 border-l border-neutral ">
+
+      <div className="flex-1 border-l border-neutral hidden lg:block ">
         <div className="sticky top-0 h-screen ">
           <FilterPanel
             filterParameters={filterParameters}
@@ -111,6 +127,13 @@ const DisplayExercises = () => {
           />
         </div>
       </div>
+      <MobileFilterPanel
+        isOpen={isPanelOpen}
+        setIsOpen={setIsPanelOpen}
+        filterParameters={filterParameters}
+        setFilterParameters={setFilterParameters}
+        searchTerm={searchTerm}
+      />
     </div>
   );
 };
