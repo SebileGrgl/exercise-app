@@ -7,6 +7,7 @@ import FilterPanel from "../components/FilterPanel";
 import ExercisesList from "../components/ExercisesList";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import MobileFilterPanel from "../components/MobileFilterPanel";
+import toggleFavorites from "../utils/toggleFavorites";
 
 const DisplayExercises = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -59,20 +60,6 @@ const DisplayExercises = () => {
     return filteredList;
   };
 
-  const toggleFavorites = (exercise: Exercise) => {
-    const isAlreadyAdded = favoriteExercises.some(
-      (item) => item.id === exercise.id
-    );
-    let updatedList: Exercise[];
-    if (isAlreadyAdded) {
-      updatedList = favoriteExercises.filter((item) => item.id !== exercise.id);
-    } else {
-      updatedList = [...favoriteExercises, exercise];
-    }
-    setFavoriteExercises(updatedList);
-    localStorage.setItem("favorites", JSON.stringify(updatedList));
-  };
-
   const isFavorite = (exercise: Exercise): boolean => {
     return favoriteExercises.some((item) => item.id === exercise.id);
   };
@@ -113,8 +100,10 @@ const DisplayExercises = () => {
         </div>
         <ExercisesList
           exercisesList={filteredExerciseList}
-          toggleFavorites={toggleFavorites}
           isFavorite={isFavorite}
+          toggleFavorites={(item: Exercise) => {
+            toggleFavorites(favoriteExercises, item, setFavoriteExercises);
+          }}
         />
       </div>
 

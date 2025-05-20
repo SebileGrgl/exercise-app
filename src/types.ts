@@ -45,13 +45,13 @@ export type FilterOptionGroupProps = {
 
 export type ExercisesListProps = {
   exercisesList: Exercise[];
-  toggleFavorites: (param: Exercise) => void;
   isFavorite: (param: Exercise) => boolean;
+  toggleFavorites: (item: Exercise) => void;
 };
 
 export type ExerciseCardProps = {
   exercise: Exercise;
-  toggleFavorites: (param: Exercise) => void;
+  toggleFavorites: () => void;
   isFavorite: (param: Exercise) => boolean;
 };
 

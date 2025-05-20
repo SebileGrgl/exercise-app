@@ -24,9 +24,7 @@ const ExerciseCard = ({
       </div>
       <div
         className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition duration-300 flex justify-center items-center p-2 bg-accent cursor-pointer"
-        onClick={() => {
-          toggleFavorites(exercise);
-        }}
+        onClick={toggleFavorites}
       >
         {isFavorite(exercise) ? (
           <FavoriteIcon width={18} />
