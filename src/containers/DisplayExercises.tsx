@@ -1,5 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllExercises } from "../api/exerciseData";
+import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import SearchField from "../components/SearchField";
 import type { Exercise, FilterParameters } from "../types";
@@ -9,6 +8,9 @@ import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import MobileFilterPanel from "../components/MobileFilterPanel";
 import toggleFavorites from "../utils/toggleFavorites";
 import { getLocal } from "../utils/localFunctions";
+import { getExercisesByPage } from "../api/exerciseData";
+
+const ITEMS_PER_PAGE = 18;
 
 const DisplayExercises = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -18,28 +20,51 @@ const DisplayExercises = () => {
     equipment: [],
   });
 
-  const { data } = useQuery({
-    queryKey: ["exercises"],
-    queryFn: getAllExercises,
-    staleTime: Infinity,
-  });
-
   const [filteredExerciseList, setFilteredExerciseList] = useState<Exercise[]>(
     []
   );
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
 
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery<
+      Exercise[],
+      Error,
+      InfiniteData<Exercise[], number>,
+      string[],
+      number
+    >({
+      queryKey: ["exercises"],
+      queryFn: async ({ pageParam = 0 }) => {
+        const exercises = await getExercisesByPage({
+          limit: ITEMS_PER_PAGE,
+          offset: pageParam,
+        });
+        return exercises;
+      },
+      getNextPageParam: (lastPage, _allPages, lastPageParam) => {
+        if (lastPage.length === 0 || lastPage.length < ITEMS_PER_PAGE) {
+          return undefined;
+        }
+        const nextOffset = lastPageParam + lastPage.length;
+        return nextOffset;
+      },
+      initialPageParam: 0,
+      staleTime: Infinity,
+    });
+
+  const allFetchedExercises = data?.pages.flatMap((page) => page) || [];
+
   useEffect(() => {
     const favoriteExercises = getLocal("favorites");
     setFavoriteExercises(favoriteExercises);
   }, []);
 
-  const filterBySearchTerm = (): Exercise[] => {
-    const updatedList = data?.filter((item) =>
+  const filterBySearchTerm = (list: Exercise[]) => {
+    const updatedList = list.filter((item: Exercise) =>
       item.name.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
     );
-    return updatedList || [];
+    return updatedList;
   };
 
   const filterByParam = (exerciseList: Exercise[]) => {
@@ -56,23 +81,21 @@ const DisplayExercises = () => {
     return filteredList;
   };
 
+  useEffect(() => {
+    let updatedList = allFetchedExercises;
+
+    if (searchTerm.trim()) {
+      updatedList = filterBySearchTerm(updatedList);
+    }
+
+    updatedList = filterByParam(updatedList);
+
+    setFilteredExerciseList(updatedList);
+  }, [allFetchedExercises, searchTerm, filterParameters]);
+
   const isFavorite = (exercise: Exercise): boolean => {
     return favoriteExercises.some((item) => item.id === exercise.id);
   };
-
-  useEffect(() => {
-    setFilterParameters({ bodyPart: [], muscles: [], equipment: [] });
-    setFilteredExerciseList(filterBySearchTerm());
-  }, [searchTerm]);
-
-  useEffect(() => {
-    const updatedList = filterBySearchTerm();
-    setFilteredExerciseList(filterByParam(updatedList));
-  }, [filterParameters]);
-
-  useEffect(() => {
-    setFilteredExerciseList(data || []);
-  }, [data]);
 
   return (
     <div className="flex justify-between relative">
@@ -82,7 +105,7 @@ const DisplayExercises = () => {
 
           <button
             onClick={() => setIsPanelOpen(true)}
-            className=" bg-primary text-white rounded-md text-sm lg:hidden p-2"
+            className=" bg-primary text-secondary rounded-md text-sm lg:hidden p-2"
           >
             <span className="hidden sm:inline">Filtrele</span>
             <span className="sm:hidden">
@@ -97,6 +120,18 @@ const DisplayExercises = () => {
             toggleFavorites(favoriteExercises, item, setFavoriteExercises);
           }}
         />
+
+        {hasNextPage && (
+          <div className="flex justify-center mt-6 mb-4">
+            <button
+              onClick={() => fetchNextPage()}
+              disabled={isFetchingNextPage}
+              className="bg-neutral text-secondary px-4 py-2 rounded-md disabled:opacity-50"
+            >
+              {isFetchingNextPage ? "Loading..." : "Load More"}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="flex-1 border-l border-neutral hidden lg:block ">

@@ -1,8 +1,15 @@
-import type { Exercise } from "../types";
+import type { Exercise, GetExercisesByPage } from "../types";
 import { axiosInstance } from "./axiosInstance";
 
-export const getAllExercises = async (): Promise<Exercise[]> => {
-  const res = await axiosInstance.get<Exercise[]>("/exercises");
+export const getExercisesByPage = async (
+  params: GetExercisesByPage
+): Promise<Exercise[]> => {
+  const res = await axiosInstance.get<Exercise[]>("/exercises", {
+    params: {
+      limit: params.limit,
+      offset: params.offset,
+    },
+  });
   return res.data;
 };
 

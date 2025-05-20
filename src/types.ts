@@ -93,3 +93,8 @@ export type SignupFormProps = {
   values: SignupData;
   errors: Partial<Record<keyof SignupData, string>>;
 };
+
+export type GetExercisesByPage = {
+  limit: number;
+  offset: number;
+};
