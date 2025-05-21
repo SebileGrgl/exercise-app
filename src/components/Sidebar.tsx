@@ -1,5 +1,4 @@
 import { NavLink, useLocation } from "react-router-dom";
-import logo from "../assets/logo.png";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
 import sidebarLinks from "../constants/sidebarLinks";
 import { removeLocal } from "../utils/localFunctions";
@@ -9,7 +8,7 @@ const Sidebar = () => {
   return (
     <aside className="h-screen fixed w-16  bg-neutral flex flex-col justify-between items-center py-4 px-2">
       <div className="border-b border-accent pb-4 flex justify-center items-center w-full ">
-        <img src={logo} alt="logo" width={40} />
+        <img src="/logo.png" alt="logo" width={40} />
       </div>
       <nav>
         <ul className="flex flex-col gap-6 items-center">
