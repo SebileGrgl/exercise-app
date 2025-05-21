@@ -4,6 +4,7 @@ import ExercisesList from "../components/ExercisesList";
 import toggleFavorites from "../utils/toggleFavorites";
 import { getLocal } from "../utils/localFunctions";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NotFound from "../components/NotFound";
 
 const FavoritesExercisesContainer = () => {
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
@@ -24,6 +25,11 @@ const FavoritesExercisesContainer = () => {
       <div className="w-full h-screen flex justify-center items-center">
         <LoadingSpinner />
       </div>
+    );
+
+  if (favoriteExercises.length < 1)
+    return (
+      <NotFound title="Looks like you haven't favorited any exercises yet." />
     );
 
   return (

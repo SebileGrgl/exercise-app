@@ -10,6 +10,7 @@ import toggleFavorites from "../utils/toggleFavorites";
 import { getLocal } from "../utils/localFunctions";
 import { getExercisesByPage } from "../api/exerciseData";
 import LoadingSpinner from "../components/LoadingSpinner";
+import NotFound from "../components/NotFound";
 
 const ITEMS_PER_PAGE = 18;
 
@@ -102,6 +103,11 @@ const DisplayExercises = () => {
       <div className="w-full h-screen flex justify-center items-center">
         <LoadingSpinner />
       </div>
+    );
+
+  if (filteredExerciseList.length < 1)
+    return (
+      <NotFound title="Unfortunately, no exercises were found that match your filters." />
     );
 
   return (
