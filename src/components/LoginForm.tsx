@@ -90,7 +90,7 @@ const LoginForm = ({
           className="border-primary text-primary border-1 rounded-xl py-[4px] text-sm flex justify-center items-center mt-2 cursor-pointer  hover:bg-primary hover:text-secondary transition-bg duration-250 ease-in-out"
           to="/signup"
         >
-          Login
+          Signup
         </Link>
       </div>
     </form>
