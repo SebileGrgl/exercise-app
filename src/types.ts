@@ -29,6 +29,7 @@ export type FilterPanelProps = {
   filterParameters: FilterParameters;
   setFilterParameters: (param: FilterParameters) => void;
   searchTerm: string;
+  setIsOpen: (param: boolean) => void;
 };
 
 export type FilterOptionGroup = {

@@ -12,8 +12,8 @@ const SignupContainer = () => {
   const [userList, setUserList] = useState<User[]>([]);
 
   useEffect(() => {
-    const userList = getLocal("userList");
-    setUserList(userList);
+    const storedUserList = getLocal("userList");
+    setUserList(storedUserList ?? []);
   }, []);
 
   const initialValues = {

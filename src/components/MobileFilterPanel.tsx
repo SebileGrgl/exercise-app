@@ -36,6 +36,7 @@ const MobileFilterPanel = ({
             filterParameters={filterParameters}
             setFilterParameters={setFilterParameters}
             searchTerm={searchTerm}
+            setIsOpen={setIsOpen}
           />
         </div>
       </div>

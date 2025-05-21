@@ -1,5 +1,5 @@
 import { useInfiniteQuery, type InfiniteData } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SearchField from "../components/SearchField";
 import type { Exercise, FilterParameters } from "../types";
 import FilterPanel from "../components/FilterPanel";
@@ -20,9 +20,6 @@ const DisplayExercises = () => {
     equipment: [],
   });
 
-  const [filteredExerciseList, setFilteredExerciseList] = useState<Exercise[]>(
-    []
-  );
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
 
@@ -56,7 +53,7 @@ const DisplayExercises = () => {
   const allFetchedExercises = data?.pages.flatMap((page) => page) || [];
 
   useEffect(() => {
-    const favoriteExercises = getLocal("favorites");
+    const favoriteExercises = getLocal("favorites") || [];
     setFavoriteExercises(favoriteExercises);
   }, []);
 
@@ -81,16 +78,18 @@ const DisplayExercises = () => {
     return filteredList;
   };
 
-  useEffect(() => {
+  const filteredExerciseList = useMemo(() => {
     let updatedList = allFetchedExercises;
 
     if (searchTerm.trim()) {
-      updatedList = filterBySearchTerm(updatedList);
+      updatedList = filterBySearchTerm(updatedList) || [];
     }
 
-    updatedList = filterByParam(updatedList);
+    if (updatedList.length > 0) {
+      updatedList = filterByParam(updatedList) || [];
+    }
 
-    setFilteredExerciseList(updatedList);
+    return updatedList;
   }, [allFetchedExercises, searchTerm, filterParameters]);
 
   const isFavorite = (exercise: Exercise): boolean => {

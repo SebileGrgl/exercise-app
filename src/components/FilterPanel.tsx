@@ -9,6 +9,7 @@ const FilterPanel = ({
   filterParameters,
   setFilterParameters,
   searchTerm,
+  setIsOpen,
 }: FilterPanelProps) => {
   const filterSchema = Yup.object().shape({
     bodyPart: Yup.array().of(Yup.string()),
@@ -28,9 +29,11 @@ const FilterPanel = ({
       validationSchema: filterSchema,
       onSubmit: () => {
         setFilterParameters(values);
+        setIsOpen(false);
       },
       onReset: () => {
         setFilterParameters(resetedValues);
+        setIsOpen(false);
       },
     });
 

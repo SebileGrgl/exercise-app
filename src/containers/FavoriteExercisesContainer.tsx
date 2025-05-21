@@ -8,7 +8,7 @@ const FavoritesExercisesContainer = () => {
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
 
   useEffect(() => {
-    const favoriteExercises = getLocal("favorites");
+    const favoriteExercises = getLocal("favorites") || [];
     setFavoriteExercises(favoriteExercises);
   }, []);
 
