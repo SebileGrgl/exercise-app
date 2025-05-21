@@ -9,6 +9,7 @@ import MobileFilterPanel from "../components/MobileFilterPanel";
 import toggleFavorites from "../utils/toggleFavorites";
 import { getLocal } from "../utils/localFunctions";
 import { getExercisesByPage } from "../api/exerciseData";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const ITEMS_PER_PAGE = 18;
 
@@ -23,7 +24,7 @@ const DisplayExercises = () => {
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
   const [isPanelOpen, setIsPanelOpen] = useState<boolean>(false);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery<
       Exercise[],
       Error,
@@ -96,6 +97,13 @@ const DisplayExercises = () => {
     return favoriteExercises.some((item) => item.id === exercise.id);
   };
 
+  if (isLoading)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
+
   return (
     <div className="flex justify-between relative">
       <div className="flex-3 pt-4 pr-6">
@@ -139,6 +147,7 @@ const DisplayExercises = () => {
             filterParameters={filterParameters}
             setFilterParameters={setFilterParameters}
             searchTerm={searchTerm}
+            setIsOpen={setIsPanelOpen}
           />
         </div>
       </div>

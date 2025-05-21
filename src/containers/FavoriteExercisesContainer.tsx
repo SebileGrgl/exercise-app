@@ -3,18 +3,28 @@ import type { Exercise } from "../types";
 import ExercisesList from "../components/ExercisesList";
 import toggleFavorites from "../utils/toggleFavorites";
 import { getLocal } from "../utils/localFunctions";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const FavoritesExercisesContainer = () => {
   const [favoriteExercises, setFavoriteExercises] = useState<Exercise[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const favoriteExercises = getLocal("favorites") || [];
     setFavoriteExercises(favoriteExercises);
+    setIsLoading(false);
   }, []);
 
   const isFavorite = (exercise: Exercise): boolean => {
     return favoriteExercises.some((item) => item.id === exercise.id);
   };
+
+  if (isLoading)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <LoadingSpinner />
+      </div>
+    );
 
   return (
     <ExercisesList
